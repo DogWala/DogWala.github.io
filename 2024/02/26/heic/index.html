@@ -19,20 +19,20 @@
     <meta name="description" content="黑群晖中，从电脑网页端上传的HEIC文件无法正常显示缩略图。已经上传的图片可以通过以下方式手动转换为JPG文件，随后重建索引即可。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HEIC to JPG in Synology Photos">
-<meta property="og:url" content="https://dogwala.github.io/2024/02/26/heic%20in%20synology/index.html">
+<meta property="og:url" content="https://dogwala.github.io/2024/02/26/heic/index.html">
 <meta property="og:site_name" content="这是一个网站">
 <meta property="og:description" content="黑群晖中，从电脑网页端上传的HEIC文件无法正常显示缩略图。已经上传的图片可以通过以下方式手动转换为JPG文件，随后重建索引即可。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dogwala.github.io/heic/ssh.png">
-<meta property="og:image" content="https://dogwala.github.io/heic/index.png">
+<meta property="og:image" content="https://dogwala.github.io/2024/02/26/heic/ssh.png">
+<meta property="og:image" content="https://dogwala.github.io/2024/02/26/heic/index.png">
 <meta property="article:published_time" content="2024-02-26T10:42:03.000Z">
-<meta property="article:modified_time" content="2024-02-26T11:44:27.047Z">
+<meta property="article:modified_time" content="2024-02-26T11:47:43.660Z">
 <meta property="article:author" content="DogWala">
 <meta property="article:tag" content="Synology Photos">
 <meta property="article:tag" content="HEIC">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dogwala.github.io/heic/ssh.png">
+<meta name="twitter:image" content="https://dogwala.github.io/2024/02/26/heic/ssh.png">
   
   
   
@@ -100,7 +100,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>DogWala</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -283,14 +283,14 @@
 
 <h2 id="1-安装Docker"><a href="#1-安装Docker" class="headerlink" title="1. 安装Docker"></a>1. 安装Docker</h2><p>在群晖的套件中心中安装Docker，新版本中叫做Container Manager。</p>
 <h2 id="2-打开SSH"><a href="#2-打开SSH" class="headerlink" title="2. 打开SSH"></a>2. 打开SSH</h2><p>在控制面板-&gt;终端机和SNMP中打开SSH。</p>
-<p><img src="/./heic/ssh.png" srcset="/img/loading.gif" lazyload></p>
+<img src="/2024/02/26/heic/ssh.png" srcset="/img/loading.gif" lazyload class="" title="[打开ssh]">
+
 <p>注意，连接ssh时使用的密码与登陆群晖的密码相同。</p>
 <h2 id="3-使用Docker运行heif-convert"><a href="#3-使用Docker运行heif-convert" class="headerlink" title="3. 使用Docker运行heif-convert"></a>3. 使用Docker运行heif-convert</h2><p>通过ssh进入&#x2F;PhotoLibrary文件夹，如果你的照片按照年份&#x2F;月份的文件夹结构存放，可以使用以下脚本将所有HEIC文件转换为JPG文件。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">文件夹的结构如下/PhotoLibrary/年份/月份/照片.HEIC</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">对于每个年份文件夹，先<span class="hljs-built_in">cd</span>到该文件夹</span><br>for i in $(ls -d */); do<br>    cd $i;<br>    # 对于每个月份文件夹，先cd到该文件夹<br>    for j in $(ls -d */); do<br>        cd $j;<br>        # 检查是否有HEIC文件<br>        if [ ! -f *.HEIC ]; then<br>            cd ..;<br>            continue;<br>        fi<br>        # 将所有HEIC文件转换为JPG文件<br>        mkdir heic;<br>        for a in *.HEIC; do mv -- &quot;$a&quot; &quot;$(pwd)/heic/$&#123;a%.HEIC&#125;.heic&quot;; done<br>        sudo docker run --rm -u &quot;$(id -u):$(id -g)&quot; -v $(pwd)/heic:/input -v $(pwd):/output shellbro/heif-convert;<br>        # sudo rm -r heic;<br>        # sudo rm -r @eaDir;<br>        cd ..;<br>    done<br>    cd ..;<br>done<br></code></pre></td></tr></table></figure>
 
 <h2 id="4-重建索引"><a href="#4-重建索引" class="headerlink" title="4. 重建索引"></a>4. 重建索引</h2><p>在Synology Photos中，点击右上角的设置按钮，选择重建索引。</p>
-<p><img src="/./heic/index.png" srcset="/img/loading.gif" lazyload></p>
-
+<img src="/2024/02/26/heic/index.png" srcset="/img/loading.gif" lazyload class="" title="[重建索引]">
                 
               </div>
             
@@ -340,7 +340,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>HEIC to JPG in Synology Photos</div>
-      <div>https://dogwala.github.io/2024/02/26/heic in synology/</div>
+      <div>https://dogwala.github.io/2024/02/26/heic/</div>
     </div>
     <div class="license-meta">
       
