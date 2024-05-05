@@ -16,23 +16,34 @@
   <meta name="author" content="DogWala">
   <meta name="keywords" content="">
   
-    <meta name="description" content="不想写的时候就不写了">
-<meta property="og:type" content="website">
-<meta property="og:title" content="这是一个网站">
-<meta property="og:url" content="https://dogwala.github.io/index.html">
+    <meta name="description" content="使用AV-HuBERT提取LRS2和LRS3的视觉特征，保存到pt文件中。使用***模型对这些特征进行解码，在从零开始的训练中几乎都无法避免出现NAN的情况。这篇博客记录了我在解决这个问题时的一些尝试。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AV-HuBERT特征导致的NAN">
+<meta property="og:url" content="https://dogwala.github.io/2024/05/05/AV-HuBERT%E7%89%B9%E5%BE%81%E5%AF%BC%E8%87%B4%E7%9A%84NAN/index.html">
 <meta property="og:site_name" content="这是一个网站">
-<meta property="og:description" content="不想写的时候就不写了">
+<meta property="og:description" content="使用AV-HuBERT提取LRS2和LRS3的视觉特征，保存到pt文件中。使用***模型对这些特征进行解码，在从零开始的训练中几乎都无法避免出现NAN的情况。这篇博客记录了我在解决这个问题时的一些尝试。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-05T15:25:38.000Z">
+<meta property="article:modified_time" content="2024-05-05T15:43:27.417Z">
 <meta property="article:author" content="DogWala">
+<meta property="article:tag" content="AV-HuBERT">
+<meta property="article:tag" content="Lip Reading">
+<meta property="article:tag" content="Deep Learning">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>这是一个网站</title>
+  <title>AV-HuBERT特征导致的NAN - 这是一个网站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -82,7 +93,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 100vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -188,17 +199,53 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="随便乱看看呗"></span>
+            <span id="subtitle" data-typed-text="AV-HuBERT特征导致的NAN"></span>
           
         </div>
 
         
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-05 23:25" pubdate>
+          2024年5月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          164 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          2 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
 
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
       
     </div>
   </div>
@@ -210,47 +257,42 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          style="margin-top: 0">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/05/05/AV-HuBERT%E7%89%B9%E5%BE%81%E5%AF%BC%E8%87%B4%E7%9A%84NAN/" target="_self">
-          AV-HuBERT特征导致的NAN
-        </a>
-      </h2>
-
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/05/AV-HuBERT%E7%89%B9%E5%BE%81%E5%AF%BC%E8%87%B4%E7%9A%84NAN/" target="_self">
-        <div>
-          使用AV-HuBERT提取LRS2和LRS3的视觉特征，保存到pt文件中。使用***模型对这些特征进行解码，在从零开始的训练中几乎都无法避免出现NAN的情况。这篇博客记录了我在解决这个问题时的一些尝试。
-        </div>
-      </a>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-05 23:25" pubdate>
-              2024-05-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AV-HuBERT特征导致的NAN</h1>
             
+            
+              <div class="markdown-body">
+                
+                <p>使用AV-HuBERT提取LRS2和LRS3的视觉特征，保存到pt文件中。使用***模型对这些特征进行解码，在从零开始的训练中几乎都无法避免出现NAN的情况。这篇博客记录了我在解决这个问题时的一些尝试。</p>
+<span id="more"></span>
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>在Dataloader中将特征的值缩放至原来的1&#x2F;100后，NAN的情况得到了解决。猜测可能是因为特征的值过大，导致了在fp16精度下出现了INF，进而导致了NAN的情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># scale feats</span><br>feats = feats * <span class="hljs-number">0.01</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="待尝试的方法"><a href="#待尝试的方法" class="headerlink" title="待尝试的方法"></a>待尝试的方法</h2><p>使用Layer Norm在Projector处对输入的特征进行归一化。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
 
 <span class="category-chains">
   
@@ -267,98 +309,142 @@
   
 </span>
 
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/AV-HuBERT/">#AV-HuBERT</a>
-            
-              <a href="/tags/Lip-Reading/">#Lip Reading</a>
-            
-              <a href="/tags/Deep-Learning/">#Deep Learning</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/02/26/heic/" target="_self">
-          HEIC to JPG in Synology Photos
-        </a>
-      </h2>
-
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/02/26/heic/" target="_self">
-        <div>
-          黑群晖中，从电脑网页端上传的HEIC文件无法正常显示缩略图。已经上传的图片可以通过以下方式手动转换为JPG文件，随后重建索引即可。
+        <a href="/tags/AV-HuBERT/" class="print-no-link">#AV-HuBERT</a>
+      
+        <a href="/tags/Lip-Reading/" class="print-no-link">#Lip Reading</a>
+      
+        <a href="/tags/Deep-Learning/" class="print-no-link">#Deep Learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AV-HuBERT特征导致的NAN</div>
+      <div>https://dogwala.github.io/2024/05/05/AV-HuBERT特征导致的NAN/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>DogWala</div>
         </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-02-26 18:42" pubdate>
-              2024-02-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
             
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Synology/" class="category-chain-item">Synology</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Synology-Photos/">#Synology Photos</a>
-            
-              <a href="/tags/HEIC/">#HEIC</a>
-            
-              <a href="/tags/Docker/">#Docker</a>
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
             
           </div>
-        
-      </div>
-    </article>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
   </div>
 
 
 
-
-
-              </div>
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/02/26/heic/" title="HEIC to JPG in Synology Photos">
+                        <span class="hidden-mobile">HEIC to JPG in Synology Photos</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
             </div>
-          </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
     
@@ -452,6 +538,99 @@
 
 
 
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
 

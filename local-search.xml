@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>AV-HuBERT特征导致的NAN</title>
+    <link href="/2024/05/05/AV-HuBERT%E7%89%B9%E5%BE%81%E5%AF%BC%E8%87%B4%E7%9A%84NAN/"/>
+    <url>/2024/05/05/AV-HuBERT%E7%89%B9%E5%BE%81%E5%AF%BC%E8%87%B4%E7%9A%84NAN/</url>
+    
+    <content type="html"><![CDATA[<p>使用AV-HuBERT提取LRS2和LRS3的视觉特征，保存到pt文件中。使用***模型对这些特征进行解码，在从零开始的训练中几乎都无法避免出现NAN的情况。这篇博客记录了我在解决这个问题时的一些尝试。</p><span id="more"></span><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>在Dataloader中将特征的值缩放至原来的1&#x2F;100后，NAN的情况得到了解决。猜测可能是因为特征的值过大，导致了在fp16精度下出现了INF，进而导致了NAN的情况。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># scale feats</span><br>feats = feats * <span class="hljs-number">0.01</span><br></code></pre></td></tr></table></figure><h2 id="待尝试的方法"><a href="#待尝试的方法" class="headerlink" title="待尝试的方法"></a>待尝试的方法</h2><p>使用Layer Norm在Projector处对输入的特征进行归一化。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Lip Reading</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>AV-HuBERT</tag>
+      
+      <tag>Lip Reading</tag>
+      
+      <tag>Deep Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HEIC to JPG in Synology Photos</title>
     <link href="/2024/02/26/heic/"/>
     <url>/2024/02/26/heic/</url>
